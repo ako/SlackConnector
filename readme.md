@@ -30,7 +30,7 @@ dependencies by running runivy.cmd. This will save all jars in the userlib folde
 
 This connector uses the [simple slack api][2] library.
 
-For the unit tests you need to provide qn authentication information configuration file $HOME/.twitterconnector.cfg:
+For the unit tests you need to provide an authentication information configuration file $HOME/.slackconnector.cfg:
 
     [UnitTesting]
     auth_token=XXXX
