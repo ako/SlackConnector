@@ -7,26 +7,42 @@ This connector enables you to post message to Slack channels and Slack users.
 ## Usage
 
 You need a authentication token provided by Slack. For development and testing you can find
-login token in the Slack documentation: [OAuth Tokens for Testing and Development][1]
+login token in the Slack documentation: [OAuth Tokens for Testing and Development][1].
+
+[Bot Users][7] describes how to register a new bot user and receive a token for authentication of your app.
 
 ### Send message to channel
 
-![][3]
+Example of a microflow that will post a message to a Slack channel:
 
-![][4]
+![Post message to slack channel][3]
+
+Here's how you configure the action:
+
+![Configure post message to slack channel][4]
 
 ### Send direct message to user
 
-![][5]
+Example of a microflow that will send a direct message to a Slack user:
 
-![][6]
+![Send direct message to a slack user][5]
+
+Here's how you configure the action:
+
+![Configure send direct message to slack user][6]
 
 ## Development
 
-Development of this connector is done through a git project on Github.
+The sourcecode for this the Mendix SlackConnector can be found on Github: [Mendix SlackConnector][8]
 
 All java jar dependencies are managed using an ivy file. You can download all
-dependencies by running runivy.cmd. This will save all jars in the userlib folder.
+dependencies by running runivy.cmd. This will save all jars in the userlib folder. There are two different
+scripts to run ivy:
+* runivy.cmd - downloads all dependencies required for running and testing the project
+* runivy-export.cmd - downloads only the dependencies required for distributing the connector mpk.
+
+Before you start to develop the connector you need to run runivy.cmd. After you validate everything works, run runivy-export.cmd.
+This will delete all jars in the userlib folder and only download the jars required for creating the connector mpk.
 
 This connector uses the [simple slack api][2] library.
 
@@ -52,4 +68,6 @@ This connector is licensed under the Apache v2 license.
   [4]: docs/images/send_to_channel_configuration.png
   [5]: docs/images/direct_message_microflow.png
   [6]: docs/images/direct_slack_message_configuration.png
+  [7]: https://api.slack.com/bot-users
+  [8]: https://github.com/ako/SlackConnector
 
