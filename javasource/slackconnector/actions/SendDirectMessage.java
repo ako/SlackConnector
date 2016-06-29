@@ -19,14 +19,14 @@ public class SendDirectMessage extends CustomJavaAction<Boolean>
 {
 	private String AuthenticationToken;
 	private String Username;
-	private String Message;
+	private String DirectSlackMessage;
 
-	public SendDirectMessage(IContext context, String AuthenticationToken, String Username, String Message)
+	public SendDirectMessage(IContext context, String AuthenticationToken, String Username, String DirectSlackMessage)
 	{
 		super(context);
 		this.AuthenticationToken = AuthenticationToken;
 		this.Username = Username;
-		this.Message = Message;
+		this.DirectSlackMessage = DirectSlackMessage;
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class SendDirectMessage extends CustomJavaAction<Boolean>
         ILogNode logger = Core.getLogger(PostMessageToChannel.class.getName());
         SlackConnector connector = new SlackConnector();
         connector.setLogger(logger);
-        connector.sendDirectMessage(this.AuthenticationToken, this.Username, this.Message);
+        connector.sendDirectMessage(this.AuthenticationToken, this.Username, this.DirectSlackMessage);
         return true;
 		// END USER CODE
 	}

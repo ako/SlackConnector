@@ -4,16 +4,16 @@
 
 package testslackconnector.proxies;
 
-public class SlackMessage
+public class SlackMessages
 {
-	private final com.mendix.systemwideinterfaces.core.IMendixObject slackMessageMendixObject;
+	private final com.mendix.systemwideinterfaces.core.IMendixObject slackMessagesMendixObject;
 
 	private final com.mendix.systemwideinterfaces.core.IContext context;
 
 	/**
 	 * Internal name of this entity
 	 */
-	public static final java.lang.String entityName = "TestSlackConnector.SlackMessage";
+	public static final java.lang.String entityName = "TestSlackConnector.SlackMessages";
 
 	/**
 	 * Enum describing members of this entity
@@ -40,51 +40,51 @@ public class SlackMessage
 		}
 	}
 
-	public SlackMessage(com.mendix.systemwideinterfaces.core.IContext context)
+	public SlackMessages(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		this(context, com.mendix.core.Core.instantiate(context, "TestSlackConnector.SlackMessage"));
+		this(context, com.mendix.core.Core.instantiate(context, "TestSlackConnector.SlackMessages"));
 	}
 
-	protected SlackMessage(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject slackMessageMendixObject)
+	protected SlackMessages(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject slackMessagesMendixObject)
 	{
-		if (slackMessageMendixObject == null)
+		if (slackMessagesMendixObject == null)
 			throw new java.lang.IllegalArgumentException("The given object cannot be null.");
-		if (!com.mendix.core.Core.isSubClassOf("TestSlackConnector.SlackMessage", slackMessageMendixObject.getType()))
-			throw new java.lang.IllegalArgumentException("The given object is not a TestSlackConnector.SlackMessage");
+		if (!com.mendix.core.Core.isSubClassOf("TestSlackConnector.SlackMessages", slackMessagesMendixObject.getType()))
+			throw new java.lang.IllegalArgumentException("The given object is not a TestSlackConnector.SlackMessages");
 
-		this.slackMessageMendixObject = slackMessageMendixObject;
+		this.slackMessagesMendixObject = slackMessagesMendixObject;
 		this.context = context;
 	}
 
 	/**
-	 * @deprecated Use 'SlackMessage.load(IContext, IMendixIdentifier)' instead.
+	 * @deprecated Use 'SlackMessages.load(IContext, IMendixIdentifier)' instead.
 	 */
 	@Deprecated
-	public static testslackconnector.proxies.SlackMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
+	public static testslackconnector.proxies.SlackMessages initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
-		return testslackconnector.proxies.SlackMessage.load(context, mendixIdentifier);
+		return testslackconnector.proxies.SlackMessages.load(context, mendixIdentifier);
 	}
 
 	/**
 	 * Initialize a proxy using context (recommended). This context will be used for security checking when the get- and set-methods without context parameters are called.
 	 * The get- and set-methods with context parameter should be used when for instance sudo access is necessary (IContext.getSudoContext() can be used to obtain sudo access).
 	 */
-	public static testslackconnector.proxies.SlackMessage initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
+	public static testslackconnector.proxies.SlackMessages initialize(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixObject mendixObject)
 	{
-		return new testslackconnector.proxies.SlackMessage(context, mendixObject);
+		return new testslackconnector.proxies.SlackMessages(context, mendixObject);
 	}
 
-	public static testslackconnector.proxies.SlackMessage load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
+	public static testslackconnector.proxies.SlackMessages load(com.mendix.systemwideinterfaces.core.IContext context, com.mendix.systemwideinterfaces.core.IMendixIdentifier mendixIdentifier) throws com.mendix.core.CoreException
 	{
 		com.mendix.systemwideinterfaces.core.IMendixObject mendixObject = com.mendix.core.Core.retrieveId(context, mendixIdentifier);
-		return testslackconnector.proxies.SlackMessage.initialize(context, mendixObject);
+		return testslackconnector.proxies.SlackMessages.initialize(context, mendixObject);
 	}
 
-	public static java.util.List<testslackconnector.proxies.SlackMessage> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
+	public static java.util.List<testslackconnector.proxies.SlackMessages> load(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String xpathConstraint) throws com.mendix.core.CoreException
 	{
-		java.util.List<testslackconnector.proxies.SlackMessage> result = new java.util.ArrayList<testslackconnector.proxies.SlackMessage>();
-		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//TestSlackConnector.SlackMessage" + xpathConstraint))
-			result.add(testslackconnector.proxies.SlackMessage.initialize(context, obj));
+		java.util.List<testslackconnector.proxies.SlackMessages> result = new java.util.ArrayList<testslackconnector.proxies.SlackMessages>();
+		for (com.mendix.systemwideinterfaces.core.IMendixObject obj : com.mendix.core.Core.retrieveXPathQuery(context, "//TestSlackConnector.SlackMessages" + xpathConstraint))
+			result.add(testslackconnector.proxies.SlackMessages.initialize(context, obj));
 		return result;
 	}
 
@@ -304,7 +304,7 @@ public class SlackMessage
 	 */
 	public final com.mendix.systemwideinterfaces.core.IMendixObject getMendixObject()
 	{
-		return slackMessageMendixObject;
+		return slackMessagesMendixObject;
 	}
 
 	/**
@@ -323,7 +323,7 @@ public class SlackMessage
 
 		if (obj != null && getClass().equals(obj.getClass()))
 		{
-			final testslackconnector.proxies.SlackMessage that = (testslackconnector.proxies.SlackMessage) obj;
+			final testslackconnector.proxies.SlackMessages that = (testslackconnector.proxies.SlackMessages) obj;
 			return getMendixObject().equals(that.getMendixObject());
 		}
 		return false;
@@ -340,7 +340,7 @@ public class SlackMessage
 	 */
 	public static java.lang.String getType()
 	{
-		return "TestSlackConnector.SlackMessage";
+		return "TestSlackConnector.SlackMessages";
 	}
 
 	/**

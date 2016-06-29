@@ -15,20 +15,20 @@ import com.mendix.systemwideinterfaces.core.IMendixObject;
 public class Microflows
 {
 	// These are the microflows for the TestSlackConnector module
-	public static testslackconnector.proxies.SlackMessage createNewSlackMessage(IContext context)
+	public static testslackconnector.proxies.SlackMessages createNewSlackMessage(IContext context)
 	{
 		try
 		{
 			Map<String, Object> params = new HashMap<String, Object>();
 			IMendixObject result = (IMendixObject)Core.execute(context, "TestSlackConnector.CreateNewSlackMessage", params);
-			return result == null ? null : testslackconnector.proxies.SlackMessage.initialize(context, result);
+			return result == null ? null : testslackconnector.proxies.SlackMessages.initialize(context, result);
 		}
 		catch (CoreException e)
 		{
 			throw new MendixRuntimeException(e);
 		}
 	}
-	public static void postSlackMessage(IContext context, testslackconnector.proxies.SlackMessage _slackMessage)
+	public static void postSlackMessage(IContext context, testslackconnector.proxies.SlackMessages _slackMessage)
 	{
 		try
 		{
@@ -41,7 +41,7 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-	public static void sendDirectSlackMessage(IContext context, testslackconnector.proxies.SlackMessage _slackMessage)
+	public static void sendDirectSlackMessage(IContext context, testslackconnector.proxies.SlackMessages _slackMessage)
 	{
 		try
 		{

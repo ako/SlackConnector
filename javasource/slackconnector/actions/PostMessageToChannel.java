@@ -21,14 +21,14 @@ public class PostMessageToChannel extends CustomJavaAction<Boolean>
 {
 	private String AuthenticationToken;
 	private String ChannelName;
-	private String Message;
+	private String SlackMessage;
 
-	public PostMessageToChannel(IContext context, String AuthenticationToken, String ChannelName, String Message)
+	public PostMessageToChannel(IContext context, String AuthenticationToken, String ChannelName, String SlackMessage)
 	{
 		super(context);
 		this.AuthenticationToken = AuthenticationToken;
 		this.ChannelName = ChannelName;
-		this.Message = Message;
+		this.SlackMessage = SlackMessage;
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class PostMessageToChannel extends CustomJavaAction<Boolean>
 		ILogNode logger = Core.getLogger(PostMessageToChannel.class.getName());
 		SlackConnector connector = new SlackConnector();
 		connector.setLogger(logger);
-		connector.postMessage(this.AuthenticationToken,this.ChannelName,this.Message);
+		connector.postMessage(this.AuthenticationToken,this.ChannelName,this.SlackMessage);
 		return true;
 		// END USER CODE
 	}
