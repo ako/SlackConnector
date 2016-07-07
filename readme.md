@@ -1,4 +1,4 @@
-# Mendix Slack connector
+# Mendix Slack Connector
 
 ## Introduction
 
@@ -33,7 +33,7 @@ Here's how you configure the action:
 
 ## Development
 
-The sourcecode for this the Mendix SlackConnector can be found on Github: [Mendix SlackConnector][8]
+The sourcecode for this the Mendix Slack Connector can be found on Github: [Mendix SlackConnector][8]
 
 All java jar dependencies are managed using an ivy file. You can download all
 dependencies by running runivy.cmd. This will save all jars in the userlib folder. There are two different
@@ -44,7 +44,7 @@ scripts to run ivy:
 Before you start to develop the connector you need to run runivy.cmd. After you validate everything works, run runivy-export.cmd.
 This will delete all jars in the userlib folder and only download the jars required for creating the connector mpk.
 
-This connector uses the [simple slack api][2] library.
+This connector uses the [Simple Slack api][2] library.
 
 For the unit tests you need to provide an authentication information configuration file $HOME/.slackconnector.cfg:
 
