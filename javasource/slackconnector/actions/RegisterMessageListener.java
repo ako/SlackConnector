@@ -9,34 +9,30 @@
 
 package slackconnector.actions;
 
+import slackconnector.impl.SlackConnector;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
-import slackconnector.impl.SlackConnector;
 
-public class SendDirectMessage extends CustomJavaAction<Boolean>
+public class RegisterMessageListener extends CustomJavaAction<Boolean>
 {
-	private String AuthenticationToken;
-	private String Username;
-	private String DirectSlackMessage;
+	private String authenticationToken;
 
-	public SendDirectMessage(IContext context, String AuthenticationToken, String Username, String DirectSlackMessage)
+	public RegisterMessageListener(IContext context, String authenticationToken)
 	{
 		super(context);
-		this.AuthenticationToken = AuthenticationToken;
-		this.Username = Username;
-		this.DirectSlackMessage = DirectSlackMessage;
+		this.authenticationToken = authenticationToken;
 	}
 
 	@Override
 	public Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-        ILogNode logger = Core.getLogger(PostMessageToChannel.class.getName());
-        SlackConnector connector = new SlackConnector(AuthenticationToken);
+		ILogNode logger = Core.getLogger(RegisterMessageListener.class.getName());
+        SlackConnector connector = new SlackConnector(authenticationToken);
         connector.setLogger(logger);
-        connector.sendDirectMessage(this.Username, this.DirectSlackMessage);
+        connector.registeringAListener(authenticationToken);
         return true;
 		// END USER CODE
 	}
@@ -47,7 +43,7 @@ public class SendDirectMessage extends CustomJavaAction<Boolean>
 	@Override
 	public String toString()
 	{
-		return "SendDirectMessage";
+		return "RegisterMessageListener";
 	}
 
 	// BEGIN EXTRA CODE

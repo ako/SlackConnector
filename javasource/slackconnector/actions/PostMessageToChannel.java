@@ -9,13 +9,11 @@
 
 package slackconnector.actions;
 
+import slackconnector.impl.SlackConnector;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
-import com.ullink.slack.simpleslackapi.events.SlackConnected;
-import javafx.geometry.Pos;
-import slackconnector.impl.SlackConnector;
 
 public class PostMessageToChannel extends CustomJavaAction<Boolean>
 {
@@ -36,9 +34,9 @@ public class PostMessageToChannel extends CustomJavaAction<Boolean>
 	{
 		// BEGIN USER CODE
 		ILogNode logger = Core.getLogger(PostMessageToChannel.class.getName());
-		SlackConnector connector = new SlackConnector();
+		SlackConnector connector = new SlackConnector(AuthenticationToken);
 		connector.setLogger(logger);
-		connector.postMessage(this.AuthenticationToken,this.ChannelName,this.SlackMessage);
+		connector.postMessage(this.ChannelName,this.SlackMessage);
 		return true;
 		// END USER CODE
 	}
