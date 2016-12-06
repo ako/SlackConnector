@@ -31,6 +31,16 @@ Here's how you configure the action:
 
 ![Configure send direct message to slack user][6]
 
+### Listener to new messages on a slack channel
+
+Register a listener:
+
+![Register new listener][9]
+
+Microflow to handle new message received:
+
+![On message microflow][10]
+
 ## Development
 
 The sourcecode for this the Mendix Slack Connector can be found on Github: [Mendix SlackConnector][8]
@@ -59,8 +69,13 @@ This connector is licensed under the Apache v2 license.
 
 2016-jun-16 - revision 1.0-snapshot
 
-* Send message to channel
-* Send direct message to user
+ * Send message to channel
+ * Send direct message to user
+
+2016-dec-06 - revision 1.1
+
+ * Registener message listener microflow
+ * Upgrade to Mendix 6.10.0
 
   [1]: https://api.slack.com/docs/oauth-test-tokens
   [2]: https://github.com/Ullink/simple-slack-api
@@ -70,4 +85,7 @@ This connector is licensed under the Apache v2 license.
   [6]: docs/images/direct_slack_message_configuration.png
   [7]: https://api.slack.com/bot-users
   [8]: https://github.com/ako/SlackConnector
+  [9]: docs/images/register-new-slack-listener.png
+  [10]: docs/images/on-message-listener-microflow.png
+  
 
