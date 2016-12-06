@@ -1,35 +1,54 @@
 package slackconnector.impl;
 
-import java.io.IOException;
-
-import slackconnector.proxies.Message;
-
+import com.google.common.collect.ImmutableMap;
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
 import com.mendix.logging.ILogNode;
+import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.SlackUser;
-import com.ullink.slack.simpleslackapi.events.SlackMessagePosted;
 import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
+
+import java.io.IOException;
 
 /**
  * Created by ako on 16-6-2016.
  */
 public class SlackConnector {
-    private ILogNode logger;
+    public static String LOGNODE = "SlackConnector";
     private static SlackSession session;
+    private static String authenticationToken = null;
+    private ILogNode logger;
 
-    public SlackConnector (String authToken) throws IOException {
-    	session = SlackSessionFactory.createWebSocketSlackSession(authToken);
-        session.connect();
+    public SlackConnector(String authToken) throws IOException {
+        synchronized (this) {
+            if (authenticationToken != null && !authenticationToken.equals(authToken)) {
+                throw new SlackConnectorException("The slackconnector does not support multiple sessions");
+            } else {
+                authenticationToken = authToken;
+            }
+        }
     }
-    
+
+    private SlackSession getSession() throws IOException {
+        synchronized (this) {
+            if (session == null) {
+                logger.info("Creating new slack session");
+                session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
+            }
+            if (!session.isConnected()){
+                logger.info("Reconnecting slack session");
+                session.connect();
+            }
+        }
+        return session;
+    }
+
     /**
      * Post message on specified slack channel
      *
-     * @param authToken
      * @param channelName
      * @param message
      * @throws IOException
@@ -37,6 +56,7 @@ public class SlackConnector {
      */
     public void postMessage(String channelName, String message) throws IOException, SlackConnectorException {
         info(String.format("postMessage: %s, %s", channelName, message));
+        SlackSession session = getSession();
         SlackChannel channel = session.findChannelByName(channelName);
         if (channel == null) {
             info("channel not found");
@@ -46,36 +66,35 @@ public class SlackConnector {
         session.sendMessage(channel, message);
         info("done postingMessage");
     }
-    
-    public void registeringAListener(String authToken) throws IOException
-    {
+
+    /**
+     * Register a microflow to be called when a slack message is received
+     *
+     * @param onMessageMicroflow
+     * @throws IOException
+     */
+    public void registeringAListener(final String onMessageMicroflow) throws IOException {
         // first define the listener
-        SlackMessagePostedListener messagePostedListener = new SlackMessagePostedListener()
-        {
-            @Override
-            public void onEvent(SlackMessagePosted event, SlackSession session)
-            {
-                SlackChannel channelOnWhichMessageWasPosted = event.getChannel();
+        logger.info(String.format("Registering new slack listener microflow: %s",onMessageMicroflow));
+        SlackMessagePostedListener messagePostedListener = (event, session1) -> {
+            String mf = onMessageMicroflow;
+            try {
+                SlackChannel messageChannel = event.getChannel();
                 String messageContent = event.getMessageContent();
                 SlackUser messageSender = event.getSender();
-                
-                Message msg = new Message(Core.createSystemContext());
-                msg.setSender(messageSender.getUserName());
-                msg.setText(messageContent);
-                msg.setChannel(channelOnWhichMessageWasPosted.getName());
-                try {
-					msg.commit();
-				} catch (CoreException e) {
-					info("woops big error"+e);
-				}
-                
-                info("Message received: "+messageContent+channelOnWhichMessageWasPosted+messageSender);
+
+                logger.info(String.format("Calling onMessage microflow: %s, %s", mf, messageChannel));
+                final ImmutableMap map = ImmutableMap.of("Channel", messageChannel, "Sender", messageSender, "Content", messageContent);
+                logger.info("Parameter map: " + map);
+                Core.execute(Core.createSystemContext(), mf, true, map);
+                info(String.format("Message received: %s, %s, %s", messageContent, messageChannel, messageSender));
+            } catch (CoreException e) {
+                logger.warn(String.format("Failed to call Slack message microflow %s: %s", mf, e.getMessage()));
             }
         };
         //add it to the session
+        SlackSession session = getSession();
         session.addMessagePostedListener(messagePostedListener);
-        //that's it, the listener will get every message post events the bot can get notified on
-        //(IE: the messages sent on channels it joined or sent directly to it)
     }
 
     public void setLogger(ILogNode logger) {
@@ -93,7 +112,6 @@ public class SlackConnector {
     /**
      * Send a direct message to a slack user
      *
-     * @param authenticationToken
      * @param username
      * @param message
      * @throws IOException
@@ -101,6 +119,8 @@ public class SlackConnector {
      */
     public void sendDirectMessage(String username, String message) throws IOException, SlackConnectorException {
         info(String.format("sendDirectMessage: %s, %s", username, message));
+        SlackSession session = getSession();
+
         SlackUser user = session.findUserByUserName(username);
         if (user == null) {
             info("user not found");

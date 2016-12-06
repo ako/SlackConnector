@@ -9,30 +9,36 @@
 
 package slackconnector.actions;
 
-import slackconnector.impl.SlackConnector;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
+import slackconnector.impl.SlackConnector;
 
-public class RegisterMessageListener extends CustomJavaAction<Boolean>
+public class RegisterMessageListener extends CustomJavaAction<java.lang.Boolean>
 {
-	private String authenticationToken;
+	private java.lang.String authenticationToken;
+	private java.lang.String onMessageMicroflow;
 
-	public RegisterMessageListener(IContext context, String authenticationToken)
+	public RegisterMessageListener(IContext context, java.lang.String authenticationToken, java.lang.String onMessageMicroflow)
 	{
 		super(context);
 		this.authenticationToken = authenticationToken;
+		this.onMessageMicroflow = onMessageMicroflow;
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		ILogNode logger = Core.getLogger(RegisterMessageListener.class.getName());
-        SlackConnector connector = new SlackConnector(authenticationToken);
-        connector.setLogger(logger);
-        connector.registeringAListener(authenticationToken);
+        try {
+            SlackConnector connector = new SlackConnector(authenticationToken);
+            connector.setLogger(logger);
+            connector.registeringAListener(this.onMessageMicroflow);
+        } catch (Exception e) {
+            logger.info(String.format("Failed to register listener: %s", e.getMessage()));
+            throw e;
+        }
         return true;
 		// END USER CODE
 	}
@@ -41,11 +47,12 @@ public class RegisterMessageListener extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "RegisterMessageListener";
 	}
 
 	// BEGIN EXTRA CODE
+    private ILogNode logger = Core.getLogger(SlackConnector.LOGNODE);
 	// END EXTRA CODE
 }

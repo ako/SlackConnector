@@ -42,6 +42,7 @@ public class UserActionsRegistrar implements EventHandler
 			component.actionRegistry().registerUserAction(appcloudservices.actions.LogOutUser.class);
 			component.actionRegistry().registerUserAction(appcloudservices.actions.StartSignOnServlet.class);
 			component.actionRegistry().registerUserAction(slackconnector.actions.PostMessageToChannel.class);
+			component.actionRegistry().registerUserAction(slackconnector.actions.RegisterMessageListener.class);
 			component.actionRegistry().registerUserAction(slackconnector.actions.SendDirectMessage.class);
 			component.actionRegistry().registerUserAction(system.actions.VerifyPassword.class);
 		}

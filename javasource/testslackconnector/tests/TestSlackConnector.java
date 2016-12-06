@@ -20,7 +20,7 @@ public class TestSlackConnector {
         Path input = Paths.get(System.getProperty("user.home") + "/.slackconnector.cfg");
         Ini ini = new Ini().read(input);
         Map<String, String> configs = ini.getSections().get("UnitTesting");
-        SlackConnector connector = new SlackConnector();
-        connector.postMessage(configs.get("authToken"), "mx-connectors", "Hi there");
+        SlackConnector connector = new SlackConnector(configs.get("authToken"));
+        connector.postMessage("mx-connectors", "Hi there");
     }
 }

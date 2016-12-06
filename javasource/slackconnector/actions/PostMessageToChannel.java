@@ -9,19 +9,19 @@
 
 package slackconnector.actions;
 
-import slackconnector.impl.SlackConnector;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
+import slackconnector.impl.SlackConnector;
 
-public class PostMessageToChannel extends CustomJavaAction<Boolean>
+public class PostMessageToChannel extends CustomJavaAction<java.lang.Boolean>
 {
-	private String AuthenticationToken;
-	private String ChannelName;
-	private String SlackMessage;
+	private java.lang.String AuthenticationToken;
+	private java.lang.String ChannelName;
+	private java.lang.String SlackMessage;
 
-	public PostMessageToChannel(IContext context, String AuthenticationToken, String ChannelName, String SlackMessage)
+	public PostMessageToChannel(IContext context, java.lang.String AuthenticationToken, java.lang.String ChannelName, java.lang.String SlackMessage)
 	{
 		super(context);
 		this.AuthenticationToken = AuthenticationToken;
@@ -30,14 +30,18 @@ public class PostMessageToChannel extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-		ILogNode logger = Core.getLogger(PostMessageToChannel.class.getName());
-		SlackConnector connector = new SlackConnector(AuthenticationToken);
-		connector.setLogger(logger);
-		connector.postMessage(this.ChannelName,this.SlackMessage);
-		return true;
+        try {
+            SlackConnector connector = new SlackConnector(this.AuthenticationToken);
+            connector.setLogger(logger);
+            connector.postMessage(this.ChannelName, this.SlackMessage);
+        } catch (Exception e) {
+            logger.info(String.format("Failed to post message: %s", e.getMessage()));
+            throw e;
+        }
+        return true;
 		// END USER CODE
 	}
 
@@ -45,11 +49,12 @@ public class PostMessageToChannel extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "PostMessageToChannel";
 	}
 
 	// BEGIN EXTRA CODE
+    private ILogNode logger = Core.getLogger(SlackConnector.LOGNODE);
 	// END EXTRA CODE
 }

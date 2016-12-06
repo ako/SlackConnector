@@ -122,7 +122,7 @@ public class SlackMessages
 	/**
 	 * @return value of AuthenticationToken
 	 */
-	public final String getAuthenticationToken()
+	public final java.lang.String getAuthenticationToken()
 	{
 		return getAuthenticationToken(getContext());
 	}
@@ -131,16 +131,16 @@ public class SlackMessages
 	 * @param context
 	 * @return value of AuthenticationToken
 	 */
-	public final String getAuthenticationToken(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getAuthenticationToken(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.AuthenticationToken.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.AuthenticationToken.toString());
 	}
 
 	/**
 	 * Set value of AuthenticationToken
 	 * @param authenticationtoken
 	 */
-	public final void setAuthenticationToken(String authenticationtoken)
+	public final void setAuthenticationToken(java.lang.String authenticationtoken)
 	{
 		setAuthenticationToken(getContext(), authenticationtoken);
 	}
@@ -150,7 +150,7 @@ public class SlackMessages
 	 * @param context
 	 * @param authenticationtoken
 	 */
-	public final void setAuthenticationToken(com.mendix.systemwideinterfaces.core.IContext context, String authenticationtoken)
+	public final void setAuthenticationToken(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String authenticationtoken)
 	{
 		getMendixObject().setValue(context, MemberNames.AuthenticationToken.toString(), authenticationtoken);
 	}
@@ -158,7 +158,7 @@ public class SlackMessages
 	/**
 	 * @return value of ChannelName
 	 */
-	public final String getChannelName()
+	public final java.lang.String getChannelName()
 	{
 		return getChannelName(getContext());
 	}
@@ -167,16 +167,16 @@ public class SlackMessages
 	 * @param context
 	 * @return value of ChannelName
 	 */
-	public final String getChannelName(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getChannelName(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.ChannelName.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.ChannelName.toString());
 	}
 
 	/**
 	 * Set value of ChannelName
 	 * @param channelname
 	 */
-	public final void setChannelName(String channelname)
+	public final void setChannelName(java.lang.String channelname)
 	{
 		setChannelName(getContext(), channelname);
 	}
@@ -186,7 +186,7 @@ public class SlackMessages
 	 * @param context
 	 * @param channelname
 	 */
-	public final void setChannelName(com.mendix.systemwideinterfaces.core.IContext context, String channelname)
+	public final void setChannelName(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String channelname)
 	{
 		getMendixObject().setValue(context, MemberNames.ChannelName.toString(), channelname);
 	}
@@ -194,7 +194,7 @@ public class SlackMessages
 	/**
 	 * @return value of Message
 	 */
-	public final String getMessage()
+	public final java.lang.String getMessage()
 	{
 		return getMessage(getContext());
 	}
@@ -203,16 +203,16 @@ public class SlackMessages
 	 * @param context
 	 * @return value of Message
 	 */
-	public final String getMessage(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.Message.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.Message.toString());
 	}
 
 	/**
 	 * Set value of Message
 	 * @param message
 	 */
-	public final void setMessage(String message)
+	public final void setMessage(java.lang.String message)
 	{
 		setMessage(getContext(), message);
 	}
@@ -222,7 +222,7 @@ public class SlackMessages
 	 * @param context
 	 * @param message
 	 */
-	public final void setMessage(com.mendix.systemwideinterfaces.core.IContext context, String message)
+	public final void setMessage(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String message)
 	{
 		getMendixObject().setValue(context, MemberNames.Message.toString(), message);
 	}
@@ -230,7 +230,7 @@ public class SlackMessages
 	/**
 	 * @return value of DirectMessage
 	 */
-	public final String getDirectMessage()
+	public final java.lang.String getDirectMessage()
 	{
 		return getDirectMessage(getContext());
 	}
@@ -239,16 +239,16 @@ public class SlackMessages
 	 * @param context
 	 * @return value of DirectMessage
 	 */
-	public final String getDirectMessage(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getDirectMessage(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.DirectMessage.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.DirectMessage.toString());
 	}
 
 	/**
 	 * Set value of DirectMessage
 	 * @param directmessage
 	 */
-	public final void setDirectMessage(String directmessage)
+	public final void setDirectMessage(java.lang.String directmessage)
 	{
 		setDirectMessage(getContext(), directmessage);
 	}
@@ -258,7 +258,7 @@ public class SlackMessages
 	 * @param context
 	 * @param directmessage
 	 */
-	public final void setDirectMessage(com.mendix.systemwideinterfaces.core.IContext context, String directmessage)
+	public final void setDirectMessage(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String directmessage)
 	{
 		getMendixObject().setValue(context, MemberNames.DirectMessage.toString(), directmessage);
 	}
@@ -266,7 +266,7 @@ public class SlackMessages
 	/**
 	 * @return value of DirectMessageUsername
 	 */
-	public final String getDirectMessageUsername()
+	public final java.lang.String getDirectMessageUsername()
 	{
 		return getDirectMessageUsername(getContext());
 	}
@@ -275,16 +275,16 @@ public class SlackMessages
 	 * @param context
 	 * @return value of DirectMessageUsername
 	 */
-	public final String getDirectMessageUsername(com.mendix.systemwideinterfaces.core.IContext context)
+	public final java.lang.String getDirectMessageUsername(com.mendix.systemwideinterfaces.core.IContext context)
 	{
-		return (String) getMendixObject().getValue(context, MemberNames.DirectMessageUsername.toString());
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.DirectMessageUsername.toString());
 	}
 
 	/**
 	 * Set value of DirectMessageUsername
 	 * @param directmessageusername
 	 */
-	public final void setDirectMessageUsername(String directmessageusername)
+	public final void setDirectMessageUsername(java.lang.String directmessageusername)
 	{
 		setDirectMessageUsername(getContext(), directmessageusername);
 	}
@@ -294,7 +294,7 @@ public class SlackMessages
 	 * @param context
 	 * @param directmessageusername
 	 */
-	public final void setDirectMessageUsername(com.mendix.systemwideinterfaces.core.IContext context, String directmessageusername)
+	public final void setDirectMessageUsername(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String directmessageusername)
 	{
 		getMendixObject().setValue(context, MemberNames.DirectMessageUsername.toString(), directmessageusername);
 	}

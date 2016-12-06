@@ -15,13 +15,13 @@ import com.mendix.systemwideinterfaces.core.IContext;
 import com.mendix.webui.CustomJavaAction;
 import slackconnector.impl.SlackConnector;
 
-public class SendDirectMessage extends CustomJavaAction<Boolean>
+public class SendDirectMessage extends CustomJavaAction<java.lang.Boolean>
 {
-	private String AuthenticationToken;
-	private String Username;
-	private String DirectSlackMessage;
+	private java.lang.String AuthenticationToken;
+	private java.lang.String Username;
+	private java.lang.String DirectSlackMessage;
 
-	public SendDirectMessage(IContext context, String AuthenticationToken, String Username, String DirectSlackMessage)
+	public SendDirectMessage(IContext context, java.lang.String AuthenticationToken, java.lang.String Username, java.lang.String DirectSlackMessage)
 	{
 		super(context);
 		this.AuthenticationToken = AuthenticationToken;
@@ -30,13 +30,17 @@ public class SendDirectMessage extends CustomJavaAction<Boolean>
 	}
 
 	@Override
-	public Boolean executeAction() throws Exception
+	public java.lang.Boolean executeAction() throws Exception
 	{
 		// BEGIN USER CODE
-        ILogNode logger = Core.getLogger(PostMessageToChannel.class.getName());
-        SlackConnector connector = new SlackConnector(AuthenticationToken);
-        connector.setLogger(logger);
-        connector.sendDirectMessage(this.Username, this.DirectSlackMessage);
+        try {
+            SlackConnector connector = new SlackConnector(AuthenticationToken);
+            connector.setLogger(logger);
+            connector.sendDirectMessage(this.Username, this.DirectSlackMessage);
+        } catch (Exception e) {
+            logger.info(String.format("Failed to send direct message: %s", e.getMessage()));
+            throw e;
+        }
         return true;
 		// END USER CODE
 	}
@@ -45,11 +49,12 @@ public class SendDirectMessage extends CustomJavaAction<Boolean>
 	 * Returns a string representation of this action
 	 */
 	@Override
-	public String toString()
+	public java.lang.String toString()
 	{
 		return "SendDirectMessage";
 	}
 
 	// BEGIN EXTRA CODE
+    private ILogNode logger = Core.getLogger(SlackConnector.LOGNODE);
 	// END EXTRA CODE
 }
