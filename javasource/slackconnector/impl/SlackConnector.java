@@ -4,7 +4,6 @@ import com.google.common.collect.ImmutableMap;
 import com.mendix.core.Core;
 import com.mendix.core.CoreException;
 import com.mendix.logging.ILogNode;
-import com.mendix.systemwideinterfaces.MendixRuntimeException;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
 import com.ullink.slack.simpleslackapi.SlackUser;
@@ -12,6 +11,9 @@ import com.ullink.slack.simpleslackapi.impl.SlackSessionFactory;
 import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by ako on 16-6-2016.
@@ -33,15 +35,25 @@ public class SlackConnector {
     }
 
     private SlackSession getSession() throws IOException {
-        synchronized (this) {
-            if (session == null) {
-                logger.info("Creating new slack session");
-                session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
+        try {
+            synchronized (this) {
+                if (session == null) {
+                    info("Creating new slack session");
+                    session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
+                    session.connect();
+                }
+//                info("Using session: " + session.toString() + ", is connected: " + session.isConnected());
+//                if (!session.isConnected()) {
+//                    info("Reconnecting slack session");
+//                    session.connect();
+//                }
+//                session.getBots().forEach(bot -> {
+//                    info(String.format("Bot found: %s", bot.getUserName()));
+//                });
             }
-            if (!session.isConnected()){
-                logger.info("Reconnecting slack session");
-                session.connect();
-            }
+        } catch (Exception e) {
+            info(String.format("getSession failed: %s", e.getMessage()));
+            throw e;
         }
         return session;
     }
@@ -75,26 +87,32 @@ public class SlackConnector {
      */
     public void registeringAListener(final String onMessageMicroflow) throws IOException {
         // first define the listener
-        logger.info(String.format("Registering new slack listener microflow: %s",onMessageMicroflow));
+        info(String.format("Registering new slack listener microflow: %s", onMessageMicroflow));
         SlackMessagePostedListener messagePostedListener = (event, session1) -> {
+            info("SlackMessagePostedListener: " + event.getJsonSource());
             String mf = onMessageMicroflow;
             try {
                 SlackChannel messageChannel = event.getChannel();
                 String messageContent = event.getMessageContent();
                 SlackUser messageSender = event.getSender();
 
-                logger.info(String.format("Calling onMessage microflow: %s, %s", mf, messageChannel));
-                final ImmutableMap map = ImmutableMap.of("Channel", messageChannel, "Sender", messageSender, "Content", messageContent);
-                logger.info("Parameter map: " + map);
-                Core.execute(Core.createSystemContext(), mf, true, map);
+                Date ts = new Date(new BigDecimal(event.getTimestamp()).multiply(new BigDecimal(1000)).longValue());
+
+                info(String.format("Calling onMessage microflow: %s, %s, %s", mf, messageChannel, ts));
+                final ImmutableMap map = ImmutableMap.of("Channel", messageChannel, "Sender", messageSender
+                        , "Content", messageContent, "Timestamp", ts, "EventJson", event.getJsonSource());
+                info("Parameter map: " + map);
+                Core.executeAsync(Core.createSystemContext(), mf, true, map);
                 info(String.format("Message received: %s, %s, %s", messageContent, messageChannel, messageSender));
-            } catch (CoreException e) {
-                logger.warn(String.format("Failed to call Slack message microflow %s: %s", mf, e.getMessage()));
+            } catch (Exception e) {
+                warn(String.format("Failed to call Slack message microflow %s: %s", mf, e.getMessage()));
             }
         };
         //add it to the session
         SlackSession session = getSession();
         session.addMessagePostedListener(messagePostedListener);
+        session.setHeartbeat(10, TimeUnit.SECONDS);
+        info(String.format("Done registering new slack listener microflow: %s", onMessageMicroflow));
     }
 
     public void setLogger(ILogNode logger) {
@@ -104,6 +122,14 @@ public class SlackConnector {
     private void info(String message) {
         if (logger != null) {
             logger.info(message);
+        } else {
+            System.err.println(message);
+        }
+    }
+
+    private void warn(String message) {
+        if (logger != null) {
+            logger.warn(message);
         } else {
             System.err.println(message);
         }

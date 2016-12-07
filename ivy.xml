@@ -6,7 +6,7 @@
     </configurations>
     <dependencies>
         <!-- for the twitter connector -->
-        <dependency org="com.ullink.slack" name="simpleslackapi" rev="0.5.1"  conf="export->default"/>
+        <dependency org="com.ullink.slack" name="simpleslackapi" rev="0.6.0"  conf="export->default"/>
 
         <!-- for testing -->
         <dependency org="ca.szc.configparser" name="java-configparser" rev="0.2"/>

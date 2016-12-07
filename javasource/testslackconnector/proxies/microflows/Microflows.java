@@ -28,14 +28,16 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-	public static void onSlackMessage(IContext context, java.lang.String _channel, java.lang.String _sender, java.lang.String _text)
+	public static void onSlackMessage(IContext context, java.lang.String _sender, java.lang.String _text, java.lang.String _channel, java.lang.String _eventJson, java.util.Date _timestamp)
 	{
 		try
 		{
 			Map<java.lang.String, Object> params = new HashMap<java.lang.String, Object>();
-			params.put("Channel", _channel);
 			params.put("Sender", _sender);
 			params.put("Text", _text);
+			params.put("Channel", _channel);
+			params.put("EventJson", _eventJson);
+			params.put("Timestamp", _timestamp);
 			Core.execute(context, "TestSlackConnector.OnSlackMessage", params);
 		}
 		catch (CoreException e)

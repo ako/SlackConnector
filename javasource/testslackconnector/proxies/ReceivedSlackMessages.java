@@ -23,7 +23,8 @@ public class ReceivedSlackMessages
 		Timestamp("Timestamp"),
 		Sender("Sender"),
 		Text("Text"),
-		Channel("Channel");
+		Channel("Channel"),
+		EventJson("EventJson");
 
 		private java.lang.String metaName;
 
@@ -260,6 +261,42 @@ public class ReceivedSlackMessages
 	public final void setChannel(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String channel)
 	{
 		getMendixObject().setValue(context, MemberNames.Channel.toString(), channel);
+	}
+
+	/**
+	 * @return value of EventJson
+	 */
+	public final java.lang.String getEventJson()
+	{
+		return getEventJson(getContext());
+	}
+
+	/**
+	 * @param context
+	 * @return value of EventJson
+	 */
+	public final java.lang.String getEventJson(com.mendix.systemwideinterfaces.core.IContext context)
+	{
+		return (java.lang.String) getMendixObject().getValue(context, MemberNames.EventJson.toString());
+	}
+
+	/**
+	 * Set value of EventJson
+	 * @param eventjson
+	 */
+	public final void setEventJson(java.lang.String eventjson)
+	{
+		setEventJson(getContext(), eventjson);
+	}
+
+	/**
+	 * Set value of EventJson
+	 * @param context
+	 * @param eventjson
+	 */
+	public final void setEventJson(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String eventjson)
+	{
+		getMendixObject().setValue(context, MemberNames.EventJson.toString(), eventjson);
 	}
 
 	/**
