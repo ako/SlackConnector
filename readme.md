@@ -72,7 +72,7 @@ This connector is licensed under the Apache v2 license.
  * Send message to channel
  * Send direct message to user
 
-2016-dec-06 - revision 1.1
+2016-dec-16 - revision 1.1
 
  * Registener message listener microflow
  * Upgrade to Mendix 6.10.0

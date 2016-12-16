@@ -2,7 +2,6 @@ package slackconnector.impl;
 
 import com.google.common.collect.ImmutableMap;
 import com.mendix.core.Core;
-import com.mendix.core.CoreException;
 import com.mendix.logging.ILogNode;
 import com.ullink.slack.simpleslackapi.SlackChannel;
 import com.ullink.slack.simpleslackapi.SlackSession;
@@ -39,14 +38,23 @@ public class SlackConnector {
             synchronized (this) {
                 if (session == null) {
                     info("Creating new slack session");
+                    //session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken,5,TimeUnit.SECONDS);
                     session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
+                    session.setHeartbeat(5,TimeUnit.SECONDS);
+                    session.addSlackConnectedListener((slackConnected, slackSession) ->  {
+                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(),slackSession.isConnected()));
+                    });
                     session.connect();
                 }
-//                info("Using session: " + session.toString() + ", is connected: " + session.isConnected());
-//                if (!session.isConnected()) {
-//                    info("Reconnecting slack session");
-//                    session.connect();
-//                }
+                info("Using session: " + session.toString() + ", is connected: " + session.isConnected());
+                if (!session.isConnected()) {
+                    info("Reconnecting slack session");
+                    try {
+                        session.connect();
+                    }catch(Exception e){
+                        warn("Failed to reconnect slack session: " + e.getMessage());
+                    }
+                }
 //                session.getBots().forEach(bot -> {
 //                    info(String.format("Bot found: %s", bot.getUserName()));
 //                });
@@ -111,7 +119,7 @@ public class SlackConnector {
         //add it to the session
         SlackSession session = getSession();
         session.addMessagePostedListener(messagePostedListener);
-        session.setHeartbeat(10, TimeUnit.SECONDS);
+        //session.setHeartbeat(10, TimeUnit.SECONDS);
         info(String.format("Done registering new slack listener microflow: %s", onMessageMicroflow));
     }
 
