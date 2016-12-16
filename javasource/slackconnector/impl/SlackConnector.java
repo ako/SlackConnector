@@ -25,6 +25,8 @@ public class SlackConnector {
 
     public SlackConnector(String authToken) throws IOException {
         synchronized (this) {
+            info(String.format("New SlackConnector for %s (%s)", authToken, this.authenticationToken));
+
             if (authenticationToken != null && !authenticationToken.equals(authToken)) {
                 throw new SlackConnectorException("The slackconnector does not support multiple sessions");
             } else {
@@ -40,9 +42,9 @@ public class SlackConnector {
                     info("Creating new slack session");
                     //session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken,5,TimeUnit.SECONDS);
                     session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
-                    session.setHeartbeat(5,TimeUnit.SECONDS);
-                    session.addSlackConnectedListener((slackConnected, slackSession) ->  {
-                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(),slackSession.isConnected()));
+                    session.setHeartbeat(5, TimeUnit.SECONDS);
+                    session.addSlackConnectedListener((slackConnected, slackSession) -> {
+                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(), slackSession.isConnected()));
                     });
                     session.connect();
                 }
@@ -51,7 +53,7 @@ public class SlackConnector {
                     info("Reconnecting slack session");
                     try {
                         session.connect();
-                    }catch(Exception e){
+                    } catch (Exception e) {
                         warn("Failed to reconnect slack session: " + e.getMessage());
                     }
                 }
