@@ -32,8 +32,7 @@ public class RegisterMessageListener extends CustomJavaAction<java.lang.Boolean>
 	{
 		// BEGIN USER CODE
         try {
-            SlackConnector connector = new SlackConnector(authenticationToken);
-            connector.setLogger(logger);
+            SlackConnector connector = new SlackConnector(authenticationToken, logger);
             connector.registeringAListener(this.onMessageMicroflow);
         } catch (Exception e) {
             logger.info(String.format("Failed to register listener: %s", e.getMessage()));

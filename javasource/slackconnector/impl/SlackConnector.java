@@ -23,7 +23,8 @@ public class SlackConnector {
     private static String authenticationToken = null;
     private ILogNode logger;
 
-    public SlackConnector(String authToken) throws IOException {
+    public SlackConnector(String authToken, ILogNode logger) {
+        this.logger = logger;
         synchronized (this) {
             info(String.format("New SlackConnector for %s (%s)", authToken, this.authenticationToken));
 
