@@ -43,7 +43,7 @@ public class SessionInitializer {
 		
 		log.info("User " + user.getName() + " authenticated. Starting session..");
 		
-		String sessionid = req.getCookie(RequestHandler.XAS_SESSION_ID);
+		String sessionid = req.getCookie(Core.getConfiguration().getSessionIdCookieName());
 	
 		ISession session = Core.initializeSession(user, sessionid);
 		
@@ -61,7 +61,7 @@ public class SessionInitializer {
 
 	public static void writeSessionCookies(IMxRuntimeResponse resp,
 			ISession session) {
-		resp.addCookie(RequestHandler.XAS_SESSION_ID, session.getId().toString(),"/" ,"" ,-1, true );
+		resp.addCookie( Core.getConfiguration().getSessionIdCookieName(), session.getId().toString(),"/" ,"" ,-1, true );
 		resp.addCookie(XASID_COOKIE, "0." + Core.getXASId(),"/" ,"" ,-1, true);
 		resp.addCookie(ORIGIN_COOKIE, "/" + OpenIDHandler.OPENID_CLIENTSERVLET_LOCATION + OpenIDHandler.LOGIN, "/", "", -1, false);
 	}

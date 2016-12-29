@@ -347,7 +347,7 @@ public class OpenIDHandler extends RequestHandler {
 
 	private void logoff(IMxRuntimeRequest req, IMxRuntimeResponse resp) throws CoreException {
 		if (SINGLESIGNOFF_ENABLED) {
-			resp.addCookie(RequestHandler.XAS_SESSION_ID, "", "/", "", 0, true);
+			resp.addCookie(/*RequestHandler.XAS_SESSION_ID*/  getSessionCookieName(), "", "/", "", 0, true);
 			resp.addCookie(SessionInitializer.XASID_COOKIE, "", "/", "", 0, true);
 			resp.setStatus(IMxRuntimeResponse.SEE_OTHER);
 			resp.addHeader("location", OPENID_PROVIDER + "/../" + LOGOFF);

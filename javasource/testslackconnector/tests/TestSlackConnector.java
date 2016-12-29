@@ -22,7 +22,7 @@ public class TestSlackConnector {
         Path input = Paths.get(System.getProperty("user.home") + "/.slackconnector.cfg");
         Ini ini = new Ini().read(input);
         String auth1 = ini.getValue("UnitTesting","authToken");
-        SlackConnector connector = new SlackConnector(auth1);
+        SlackConnector connector = new SlackConnector(auth1,null);
         connector.postMessage("mx-connectors", "Hi there");
     }
 
@@ -32,8 +32,23 @@ public class TestSlackConnector {
         Path input = Paths.get(System.getProperty("user.home") + "/.slackconnector.cfg");
         Ini ini = new Ini().read(input);
         String auth1 = ini.getValue("UnitTesting","authToken");
-        SlackConnector connector = new SlackConnector(auth1);
+        SlackConnector connector = new SlackConnector(auth1,null);
         connector.registeringAListener("myMF");
+        Thread.sleep(60000);
+    }
+
+    @Test
+    public void testOnMessageListenerAndPost() throws IOException, SlackConnectorException, NoSectionError, NoOptionError, InterruptedException {
+        // get configuration
+        Path input = Paths.get(System.getProperty("user.home") + "/.slackconnector.cfg");
+        Ini ini = new Ini().read(input);
+        String auth1 = ini.getValue("UnitTesting","authToken");
+        SlackConnector connector1 = new SlackConnector(auth1,null);
+        connector1.postMessage("rekognition","123");
+        SlackConnector connector2 = new SlackConnector(auth1,null);
+        connector2.registeringAListener("myMF");
+        SlackConnector connector3 = new SlackConnector(auth1,null);
+        connector3.postMessage("rekognition","123");
         Thread.sleep(60000);
     }
 }

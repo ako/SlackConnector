@@ -25,8 +25,11 @@ public class SlackConnector {
 
     public SlackConnector(String authToken, ILogNode logger) {
         this.logger = logger;
+        if(authToken == null){
+            throw new SlackConnectorException("Authentication token cannot be empty");
+        }
         synchronized (this) {
-            info(String.format("New SlackConnector for %s (%s)", authToken, this.authenticationToken));
+            info(String.format("New SlackConnector for token %s (existing: %s)", authToken, this.authenticationToken));
 
             if (authenticationToken != null && !authenticationToken.equals(authToken)) {
                 throw new SlackConnectorException("The slackconnector does not support multiple sessions");
@@ -44,9 +47,9 @@ public class SlackConnector {
                     //session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken,5,TimeUnit.SECONDS);
                     session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
                     session.setHeartbeat(5, TimeUnit.SECONDS);
-                    session.addSlackConnectedListener((slackConnected, slackSession) -> {
-                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(), slackSession.isConnected()));
-                    });
+//                    session.addSlackConnectedListener((slackConnected, slackSession) -> {
+//                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(), slackSession.isConnected()));
+//                    });
                     session.connect();
                 }
                 info("Using session: " + session.toString() + ", is connected: " + session.isConnected());
@@ -55,7 +58,7 @@ public class SlackConnector {
                     try {
                         session.connect();
                     } catch (Exception e) {
-                        warn("Failed to reconnect slack session: " + e.getMessage());
+                        warn(String.format("Failed to reconnect slack session: %s %s", e.toString(), e.getMessage()));
                     }
                 }
 //                session.getBots().forEach(bot -> {
