@@ -7,3 +7,4 @@ SlackConnector.iml
 *.bak
 *.lock
 *.launch
+DIST/*

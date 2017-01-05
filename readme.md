@@ -41,6 +41,10 @@ Microflow to handle new message received:
 
 ![On message microflow][10]
 
+### Determine user name for user id
+
+### Determine channel name for channel id
+
 ## Development
 
 The sourcecode for this the Mendix Slack Connector can be found on Github: [Mendix SlackConnector][8]
@@ -67,7 +71,7 @@ This connector is licensed under the Apache v2 license.
 
 ## Changelog
 
-2016-jun-16 - revision 1.0-snapshot
+2016-jun-16 - revision 1.0
 
  * Send message to channel
  * Send direct message to user
@@ -76,6 +80,12 @@ This connector is licensed under the Apache v2 license.
 
  * Registener message listener microflow
  * Upgrade to Mendix 6.10.0
+ 
+2017-jan- - revision 1.2
+
+ * Upgrade to Mendix 7.0.0 Beta
+ * Get username for user id
+ * Get channelname for channel id
 
   [1]: https://api.slack.com/docs/oauth-test-tokens
   [2]: https://github.com/Ullink/simple-slack-api

@@ -25,7 +25,7 @@ public class SlackConnector {
 
     public SlackConnector(String authToken, ILogNode logger) {
         this.logger = logger;
-        if(authToken == null){
+        if (authToken == null) {
             throw new SlackConnectorException("Authentication token cannot be empty");
         }
         synchronized (this) {
@@ -46,7 +46,7 @@ public class SlackConnector {
                     info("Creating new slack session");
                     //session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken,5,TimeUnit.SECONDS);
                     session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
-                    session.setHeartbeat(5, TimeUnit.SECONDS);
+                    session.setHeartbeat(30, TimeUnit.SECONDS);
 //                    session.addSlackConnectedListener((slackConnected, slackSession) -> {
 //                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(), slackSession.isConnected()));
 //                    });
@@ -93,6 +93,16 @@ public class SlackConnector {
         info("done postingMessage");
     }
 
+    public String getChannelName(String channelId) throws IOException {
+        SlackSession session = getSession();
+        return session.findChannelById(channelId).getName();
+    }
+
+    public String getUsername(String userId) throws IOException {
+        SlackSession session = getSession();
+        return session.findUserById(userId).getUserName();
+    }
+
     /**
      * Register a microflow to be called when a slack message is received
      *
@@ -103,7 +113,7 @@ public class SlackConnector {
         // first define the listener
         info(String.format("Registering new slack listener microflow: %s", onMessageMicroflow));
         SlackMessagePostedListener messagePostedListener = (event, session1) -> {
-            info("SlackMessagePostedListener: " + event.getJsonSource());
+            info(String.format("SlackMessagePostedListener: %s", event.getJsonSource()));
             String mf = onMessageMicroflow;
             try {
                 SlackChannel messageChannel = event.getChannel();
