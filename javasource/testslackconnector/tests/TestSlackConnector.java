@@ -3,7 +3,10 @@ package testslackconnector.tests;
 import ca.szc.configparser.Ini;
 import ca.szc.configparser.exceptions.NoOptionError;
 import ca.szc.configparser.exceptions.NoSectionError;
+import com.mendix.core.Core;
+import com.mendix.systemwideinterfaces.core.IContext;
 import org.junit.Test;
+import org.junit.experimental.theories.suppliers.TestedOn;
 import slackconnector.impl.SlackConnector;
 import slackconnector.impl.SlackConnectorException;
 
@@ -51,4 +54,5 @@ public class TestSlackConnector {
         connector3.postMessage("rekognition","123");
         Thread.sleep(60000);
     }
+
 }

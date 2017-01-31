@@ -166,16 +166,4 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
-	public static void viewStatistics(IContext context)
-	{
-		try
-		{
-			Map<java.lang.String, Object> params = new HashMap<java.lang.String, Object>();
-			Core.execute(context, "Administration.ViewStatistics", params);
-		}
-		catch (CoreException e)
-		{
-			throw new MendixRuntimeException(e);
-		}
-	}
 }

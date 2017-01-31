@@ -43,7 +43,11 @@ Microflow to handle new message received:
 
 ### Determine user name for user id
 
+ ![Get username by userid][11]
+
 ### Determine channel name for channel id
+
+ ![Get channel name by channel id][11]
 
 ## Development
 
@@ -97,5 +101,6 @@ This connector is licensed under the Apache v2 license.
   [8]: https://github.com/ako/SlackConnector
   [9]: docs/images/register-new-slack-listener.png
   [10]: docs/images/on-message-listener-microflow.png
+  [11]: docs/images/get_username_get_channel_name.png
   
 

@@ -122,9 +122,10 @@ public class SlackConnector {
 
                 Date ts = new Date(new BigDecimal(event.getTimestamp()).multiply(new BigDecimal(1000)).longValue());
 
-                info(String.format("Calling onMessage microflow: %s, %s, %s", mf, messageChannel, ts));
-                final ImmutableMap map = ImmutableMap.of("Channel", messageChannel, "Sender", messageSender
-                        , "Content", messageContent, "Timestamp", ts, "EventJson", event.getJsonSource());
+                final ImmutableMap map = ImmutableMap.of(
+                        "ChannelId", messageChannel.getId(),
+                        "SenderId", messageSender.getId(),
+                        "Content", messageContent, "Timestamp", ts, "EventJson", event.getJsonSource());
                 info("Parameter map: " + map);
                 Core.executeAsync(Core.createSystemContext(), mf, true, map);
                 info(String.format("Message received: %s, %s, %s", messageContent, messageChannel, messageSender));
