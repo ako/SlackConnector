@@ -112,6 +112,8 @@ public class SlackConnector {
     public void registeringAListener(final String onMessageMicroflow) throws IOException {
         // first define the listener
         info(String.format("Registering new slack listener microflow: %s", onMessageMicroflow));
+        String instanceIndex = System.getenv("CF_INSTANCE_INDEX");
+        info(String.format("Running slack listener on instance: %s", instanceIndex));
         SlackMessagePostedListener messagePostedListener = (event, session1) -> {
             info(String.format("SlackMessagePostedListener: %s", event.getJsonSource()));
             String mf = onMessageMicroflow;

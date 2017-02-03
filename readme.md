@@ -67,7 +67,7 @@ This connector uses the [Simple Slack api][2] library.
 For the unit tests you need to provide an authentication information configuration file $HOME/.slackconnector.cfg:
 
     [UnitTesting]
-    auth_token=XXXX
+    authToken=XXXX
 
 ## License
 
