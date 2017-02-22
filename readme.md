@@ -85,9 +85,9 @@ This connector is licensed under the Apache v2 license.
  * Registener message listener microflow
  * Upgrade to Mendix 6.10.0
  
-2017-jan- - revision 1.2
+2017-feb-22 - revision 1.2
 
- * Upgrade to Mendix 7.0.0 Beta
+ * Upgrade to Mendix 7.0
  * Get username for user id
  * Get channelname for channel id
 

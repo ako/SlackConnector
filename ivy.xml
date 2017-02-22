@@ -5,8 +5,13 @@
         <conf name="export" description="connector export"/>
     </configurations>
     <dependencies>
-        <!-- for the twitter connector -->
-        <dependency org="com.ullink.slack" name="simpleslackapi" rev="0.6.0"  conf="export->default"/>
+        <!-- for the slack connector -->
+        <dependency org="com.ullink.slack" name="simpleslackapi" rev="0.6.0" conf="export->default">
+			<!--
+            <exclude org="org.apache.httpcomponents" name="httpclient"/>
+            <exclude org="org.apache.httpcomponents" name="httpmime"/>
+			-->
+        </dependency>
 
         <!-- for testing -->
         <dependency org="ca.szc.configparser" name="java-configparser" rev="0.2"/>
@@ -17,6 +22,8 @@
         <dependency org="org.openid4java" name="openid4java" rev="0.9.8"/>
         <dependency org="commons-lang" name="commons-lang" rev="2.5"/>
         <dependency org="org.apache.ws.commons.axiom" name="axiom-api" rev="1.2.19"/>
-
+<!--
+        <override org="org.apache.httpcomponents" module="httpclient" rev="4.3.6" />
+		-->
     </dependencies>
 </ivy-module>
