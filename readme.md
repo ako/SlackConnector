@@ -90,6 +90,10 @@ This connector is licensed under the Apache v2 license.
  * Upgrade to Mendix 7.0
  * Get username for user id
  * Get channelname for channel id
+ 
+2017-may-09 - revision 1.3
+
+ * Refactored slack connector to improve concurrency
 
   [1]: https://api.slack.com/docs/oauth-test-tokens
   [2]: https://github.com/Ullink/simple-slack-api

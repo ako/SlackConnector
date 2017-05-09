@@ -28,6 +28,19 @@ public class Microflows
 			throw new MendixRuntimeException(e);
 		}
 	}
+	public static testslackconnector.proxies.SlackConfig getSlackConfig(IContext context)
+	{
+		try
+		{
+			Map<java.lang.String, Object> params = new HashMap<java.lang.String, Object>();
+			IMendixObject result = (IMendixObject)Core.execute(context, "TestSlackConnector.GetSlackConfig", params);
+			return result == null ? null : testslackconnector.proxies.SlackConfig.initialize(context, result);
+		}
+		catch (CoreException e)
+		{
+			throw new MendixRuntimeException(e);
+		}
+	}
 	public static void onSlackMessage(IContext context, java.lang.String _senderId, java.lang.String _content, java.lang.String _channelId, java.lang.String _eventJson, java.util.Date _timestamp)
 	{
 		try

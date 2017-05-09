@@ -34,7 +34,7 @@ public class GetUserNameById extends CustomJavaAction<java.lang.String>
 		logger.info("GetUserNameById: " + this.UserId);
 		String username = null;
 		try {
-			SlackConnector connector = new SlackConnector(this.AuthenticationToken, logger);
+			SlackConnector connector =  SlackConnector.getInstance(this.AuthenticationToken, logger);
 			username =  connector.getUsername(this.UserId);
 		} catch (Exception e) {
 			logger.info(String.format("Failed to get username: %s", e.getMessage()));

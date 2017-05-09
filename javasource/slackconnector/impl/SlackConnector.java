@@ -12,6 +12,7 @@ import com.ullink.slack.simpleslackapi.listeners.SlackMessagePostedListener;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -19,31 +20,38 @@ import java.util.concurrent.TimeUnit;
  */
 public class SlackConnector {
     public static String LOGNODE = "SlackConnector";
-    private static SlackSession session;
-    private static String authenticationToken = null;
+    private String authenticationToken = null;
+    private SlackSession session = null;
     private ILogNode logger;
+    private static final SlackConnector instance = new SlackConnector();
 
-    public SlackConnector(String authToken, ILogNode logger) {
-        this.logger = logger;
-        if (authToken == null) {
-            throw new SlackConnectorException("Authentication token cannot be empty");
-        }
-        synchronized (this) {
-            info(String.format("New SlackConnector for token %s (existing: %s)", authToken, this.authenticationToken));
 
-            if (authenticationToken != null && !authenticationToken.equals(authToken)) {
+    public static SlackConnector getInstance(String authToken, ILogNode logger) throws IOException {
+        synchronized (instance) {
+            if (instance.authenticationToken == null) {
+                if (authToken == null) {
+                    throw new SlackConnectorException("Authentication token cannot be empty");
+                } else {
+                    instance.logger = logger;
+                    instance.authenticationToken = authToken;
+                }
+            }
+            if (instance.authenticationToken != null && !instance.authenticationToken.equals(authToken)) {
                 throw new SlackConnectorException("The slackconnector does not support multiple sessions");
-            } else {
-                authenticationToken = authToken;
             }
         }
+        return instance;
     }
+
+    private SlackConnector() {
+    }
+
 
     private SlackSession getSession() throws IOException {
         try {
-            synchronized (this) {
+            synchronized (instance) {
                 if (session == null) {
-                    info("Creating new slack session");
+                    info("Creating new slack session for auth " + this.authenticationToken);
                     //session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken,5,TimeUnit.SECONDS);
                     session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
                     session.setHeartbeat(30, TimeUnit.SECONDS);

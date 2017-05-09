@@ -34,7 +34,7 @@ public class PostMessageToChannel extends CustomJavaAction<java.lang.Boolean>
 	{
 		// BEGIN USER CODE
         try {
-            SlackConnector connector = new SlackConnector(this.AuthenticationToken, logger);
+            SlackConnector connector = SlackConnector.getInstance(this.AuthenticationToken, logger);
             connector.postMessage(this.ChannelName, this.SlackMessage);
         } catch (Exception e) {
             logger.info(String.format("Failed to post message: %s", e.getMessage()));

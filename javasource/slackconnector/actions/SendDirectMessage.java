@@ -34,7 +34,7 @@ public class SendDirectMessage extends CustomJavaAction<java.lang.Boolean>
 	{
 		// BEGIN USER CODE
         try {
-            SlackConnector connector = new SlackConnector(AuthenticationToken, logger);
+            SlackConnector connector = SlackConnector.getInstance(AuthenticationToken, logger);
             connector.sendDirectMessage(this.Username, this.DirectSlackMessage);
         } catch (Exception e) {
             logger.info(String.format("Failed to send direct message: %s", e.getMessage()));

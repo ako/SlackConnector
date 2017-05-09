@@ -20,7 +20,6 @@ public class SlackMessages
 	 */
 	public enum MemberNames
 	{
-		AuthenticationToken("AuthenticationToken"),
 		ChannelName("ChannelName"),
 		Message("Message"),
 		DirectMessage("DirectMessage"),
@@ -119,42 +118,6 @@ public class SlackMessages
 	{
 		com.mendix.core.Core.delete(context, getMendixObject());
 	}
-	/**
-	 * @return value of AuthenticationToken
-	 */
-	public final java.lang.String getAuthenticationToken()
-	{
-		return getAuthenticationToken(getContext());
-	}
-
-	/**
-	 * @param context
-	 * @return value of AuthenticationToken
-	 */
-	public final java.lang.String getAuthenticationToken(com.mendix.systemwideinterfaces.core.IContext context)
-	{
-		return (java.lang.String) getMendixObject().getValue(context, MemberNames.AuthenticationToken.toString());
-	}
-
-	/**
-	 * Set value of AuthenticationToken
-	 * @param authenticationtoken
-	 */
-	public final void setAuthenticationToken(java.lang.String authenticationtoken)
-	{
-		setAuthenticationToken(getContext(), authenticationtoken);
-	}
-
-	/**
-	 * Set value of AuthenticationToken
-	 * @param context
-	 * @param authenticationtoken
-	 */
-	public final void setAuthenticationToken(com.mendix.systemwideinterfaces.core.IContext context, java.lang.String authenticationtoken)
-	{
-		getMendixObject().setValue(context, MemberNames.AuthenticationToken.toString(), authenticationtoken);
-	}
-
 	/**
 	 * @return value of ChannelName
 	 */

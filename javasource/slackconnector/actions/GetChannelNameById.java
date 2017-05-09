@@ -34,7 +34,7 @@ public class GetChannelNameById extends CustomJavaAction<java.lang.String>
 		logger.info("GetChannelName: " + this.ChannelId);
 		String channelName = null;
 		try {
-			SlackConnector connector = new SlackConnector(this.AuthenticationToken, logger);
+			SlackConnector connector =  SlackConnector.getInstance(this.AuthenticationToken, logger);
 			channelName = connector.getChannelName(this.ChannelId);
 		} catch (Exception e) {
 			logger.info(String.format("Failed to get channelname: %s", e.getMessage()));
