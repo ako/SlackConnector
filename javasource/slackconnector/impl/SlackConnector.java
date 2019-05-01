@@ -1,6 +1,6 @@
 package slackconnector.impl;
 
-import com.google.common.collect.ImmutableMap;
+//import com.google.common.collect.ImmutableMap;
 import com.mendix.core.Core;
 import com.mendix.logging.ILogNode;
 import com.ullink.slack.simpleslackapi.SlackChannel;
@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -54,13 +55,15 @@ public class SlackConnector {
                     info("Creating new slack session for auth " + this.authenticationToken);
                     //session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken,5,TimeUnit.SECONDS);
                     session = SlackSessionFactory.createWebSocketSlackSession(this.authenticationToken);
-                    session.setHeartbeat(30, TimeUnit.SECONDS);
+
+//                    session.setHeartbeat(30, TimeUnit.SECONDS);
+
 //                    session.addSlackConnectedListener((slackConnected, slackSession) -> {
 //                        info(String.format("Slack connected listener: %s, %s", slackConnected.getConnectedPersona().getUserName(), slackSession.isConnected()));
 //                    });
                     session.connect();
                 }
-                info("Using session: " + session.toString() + ", is connected: " + session.isConnected());
+                debug("Using session: " + session.toString() + ", is connected: " + session.isConnected());
                 if (!session.isConnected()) {
                     info("Reconnecting slack session");
                     try {
@@ -74,7 +77,7 @@ public class SlackConnector {
 //                });
             }
         } catch (Exception e) {
-            info(String.format("getSession failed: %s", e.getMessage()));
+            warn(String.format("getSession failed: %s", e.getMessage()));
             throw e;
         }
         return session;
@@ -93,10 +96,10 @@ public class SlackConnector {
         SlackSession session = getSession();
         SlackChannel channel = session.findChannelByName(channelName);
         if (channel == null) {
-            info("channel not found");
+            warn("channel not found");
             throw new SlackConnectorException(String.format("Channel %s not found", channelName));
         }
-        info(String.format("Channel: %s", channel.getName()));
+        debug(String.format("Channel: %s", channel.getName()));
         session.sendMessage(channel, message);
         info("done postingMessage");
     }
@@ -121,9 +124,13 @@ public class SlackConnector {
         // first define the listener
         info(String.format("Registering new slack listener microflow: %s", onMessageMicroflow));
         String instanceIndex = System.getenv("CF_INSTANCE_INDEX");
+        if ( instanceIndex != null && !instance.equals("") && !instance.equals("0")){
+            warn("Slack connector must run on instance 0");
+            return;
+        }
         info(String.format("Running slack listener on instance: %s", instanceIndex));
         SlackMessagePostedListener messagePostedListener = (event, session1) -> {
-            info(String.format("SlackMessagePostedListener: %s", event.getJsonSource()));
+            debug(String.format("SlackMessagePostedListener: %s", event.getJsonSource()));
             String mf = onMessageMicroflow;
             try {
                 SlackChannel messageChannel = event.getChannel();
@@ -132,13 +139,23 @@ public class SlackConnector {
 
                 Date ts = new Date(new BigDecimal(event.getTimestamp()).multiply(new BigDecimal(1000)).longValue());
 
-                final ImmutableMap map = ImmutableMap.of(
-                        "ChannelId", messageChannel.getId(),
-                        "SenderId", messageSender.getId(),
-                        "Content", messageContent, "Timestamp", ts, "EventJson", event.getJsonSource());
-                info("Parameter map: " + map);
+//                final ImmutableMap map = ImmutableMap.of(
+//                        "ChannelId", messageChannel.getId(),
+//                        "SenderId", messageSender.getId(),
+//                        "Content", messageContent,
+//                        "Timestamp", ts,
+//                        "EventJson", event.getJsonSource());
+                final Map<String,Object> map = new HashMap<String,Object>(){
+                    {
+                        put("ChannelId", messageChannel.getId());
+                        put("SenderId", messageSender.getId());
+                        put("Content", messageContent);
+                        put("Timestamp", ts);
+                        put("EventJson", event.getJsonSource());
+                    }};
+                debug("Parameter map: " + map);
                 Core.executeAsync(Core.createSystemContext(), mf, true, map);
-                info(String.format("Message received: %s, %s, %s", messageContent, messageChannel, messageSender));
+                debug(String.format("Message received: %s, %s, %s", messageContent, messageChannel, messageSender));
             } catch (Exception e) {
                 warn(String.format("Failed to call Slack message microflow %s: %s", mf, e.getMessage()));
             }
@@ -170,6 +187,14 @@ public class SlackConnector {
         }
     }
 
+    private void debug(String message) {
+        if (logger != null) {
+            logger.debug(message);
+        } else {
+            System.err.println(message);
+        }
+    }
+
     /**
      * Send a direct message to a slack user
      *
@@ -184,11 +209,11 @@ public class SlackConnector {
 
         SlackUser user = session.findUserByUserName(username);
         if (user == null) {
-            info("user not found");
+            warn("user not found");
             throw new SlackConnectorException(String.format("User %s not found", username));
         }
-        info(String.format("User: %s", user.getRealName()));
+        debug(String.format("User: %s", user.getRealName()));
         session.sendMessageToUser(user, message, null);
-        info("done sendDirectMessage");
+        debug("done sendDirectMessage");
     }
 }

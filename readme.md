@@ -95,6 +95,14 @@ This connector is licensed under the Apache v2 license.
 
  * Refactored slack connector to improve concurrency
 
+2019-may-01 - Revision 1.4
+
+ * Upgrade to Mendix 7.23.3
+ * Upgrade Simple Slack API to version 1.2.0
+ * Updated to new Slack logo
+ * Only create slack listeners on instance 0
+
+
   [1]: https://api.slack.com/docs/oauth-test-tokens
   [2]: https://github.com/Ullink/simple-slack-api
   [3]: docs/images/send_to_channel_from_microflow.png

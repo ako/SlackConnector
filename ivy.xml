@@ -6,7 +6,7 @@
     </configurations>
     <dependencies>
         <!-- for the slack connector -->
-        <dependency org="com.ullink.slack" name="simpleslackapi" rev="0.6.0" conf="export->default">
+        <dependency org="com.ullink.slack" name="simpleslackapi" rev="1.2.0" conf="export->default">
 			<!--
             <exclude org="org.apache.httpcomponents" name="httpclient"/>
             <exclude org="org.apache.httpcomponents" name="httpmime"/>

@@ -9,3 +9,4 @@ SlackConnector.iml
 *.launch
 DIST/*
 *~
+.gradle
