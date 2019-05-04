@@ -124,12 +124,24 @@ public class SlackConnector {
         // first define the listener
         info(String.format("Registering new slack listener microflow: %s", onMessageMicroflow));
         String instanceIndex = System.getenv("CF_INSTANCE_INDEX");
-        if ( instanceIndex != null && !instance.equals("") && !instance.equals("0")){
-            warn("Slack connector must run on instance 0");
-            return;
+        info(String.format("Registering new slack listener on instance %s", instanceIndex));
+        if (instanceIndex != null
+                && !instance.equals("")) {
+            // instance id was provided, running on cf
+            try {
+                int instanceIdx = Integer.parseInt(instanceIndex);
+                if (instanceIdx != 0) {
+                    warn("Slack connector must run on instance 0");
+                    return;
+                }
+            } catch (NumberFormatException e) {
+                warn("Failed to parse instance index: " + instanceIndex);
+                return;
+            }
         }
         info(String.format("Running slack listener on instance: %s", instanceIndex));
         SlackMessagePostedListener messagePostedListener = (event, session1) -> {
+            info("Slack message received");
             debug(String.format("SlackMessagePostedListener: %s", event.getJsonSource()));
             String mf = onMessageMicroflow;
             try {
